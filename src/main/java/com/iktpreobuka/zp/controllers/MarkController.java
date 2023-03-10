@@ -139,8 +139,10 @@ public class MarkController {
 		List<MarkEntity> marks = markRepository.findAllBySubjectAndPupil(subject, pupil);
 		long sum = 0;
 		for (MarkEntity mark : marks) {
+			log.error("An exception occured while suming marks from subject!");
 			sum += mark.getMark();
 		}
+		log.error("An exception occured while listing marks by pupil id and subject id!");
 		return (double) sum/marks.size();
 		}
 	
@@ -151,8 +153,10 @@ public class MarkController {
 		List<MarkEntity> marks = markRepository.findAllByPupil(pupil);
 		long sum = 0;
 		for (MarkEntity mark : marks) {
+			log.error("An exception occured while suming all marks!");
 			sum += mark.getMark();
 		}
+		log.error("An exception occured while getting average mark by pupil id!");
 		return (double) sum/marks.size();
 		}
 	
@@ -168,10 +172,12 @@ public class MarkController {
 			if(sumPerSubject.containsKey(subjectName)) {
 				Integer sum = sumPerSubject.get(subjectName)+mark.getMark();
 				sumPerSubject.put(subjectName, sum);
+				log.error("An exception occured while suming marks per subject!");
 			} else {
 				sumPerSubject.put(subjectName, mark.getMark());
 			}
 			if(counterPerSubject.containsKey(subjectName)) {
+				log.error("An exception occured while counting subject!");
 				Integer sum = counterPerSubject.get(subjectName) + 1;
 				counterPerSubject.put(subjectName, sum);
 			} else {
@@ -180,11 +186,12 @@ public class MarkController {
 		}
 		Map<String, Double> avgPerSubject = new HashMap<>(sumPerSubject.size());
 		for (Map.Entry<String, Integer> sumEntry : sumPerSubject.entrySet()) {
+			log.error("An exception occured while average marks per subject in  map!");
 			String subjectName =sumEntry.getKey();
 			Integer counter = counterPerSubject.get(subjectName);
 			avgPerSubject.put(subjectName, ((double) sumEntry.getValue()/counter));
 		}
-		
+		log.error("An exception occured while getting average mark per subject by pupil id!");
 		return avgPerSubject;
 	}
 }

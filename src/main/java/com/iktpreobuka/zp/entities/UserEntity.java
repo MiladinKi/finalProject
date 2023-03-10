@@ -32,7 +32,7 @@ public class UserEntity {
 	@NotNull(message = "Password must be provided")
 	@Size(min = 10, max = 15, message = "Password must be between {min} and {max} characters long")
 	@Column
-	@JsonIgnore
+	
 	private String password;
 	@Column
 	private EUserRole userRole;
