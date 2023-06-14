@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ import com.iktpreobuka.zp.repositories.UserRepository;
 
 @RestController
 @RequestMapping(path = "/finalProject/teachers")
+@CrossOrigin(origins = "http://localhost:3000")
 public class TeacherController {
 	private static final Logger log = LoggerFactory.getLogger(TeacherController.class);
 	@Autowired
@@ -41,9 +43,11 @@ public class TeacherController {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@RequestMapping(method = RequestMethod.POST, path = "/newTeacher/user/{userId}")
-	public ResponseEntity<?> addNewTeacher(@Valid @RequestBody TeacherEntity newTeacher, BindingResult result,
-			@PathVariable Integer userId){
+//	@RequestMapping(method = RequestMethod.POST, path = "/newTeacher/user/{userId}")
+	@RequestMapping(method = RequestMethod.POST)
+//	public ResponseEntity<?> addNewTeacher(@Valid @RequestBody TeacherEntity newTeacher, BindingResult result,
+//			@PathVariable Integer userId){
+	public ResponseEntity<?> addNewTeacher(@Valid @RequestBody TeacherEntity newTeacher, BindingResult result){
 		if(result.hasErrors()) {
 			return new ResponseEntity<>(createErrorMessage(result), HttpStatus.BAD_REQUEST);
 		}
@@ -54,9 +58,9 @@ public class TeacherController {
 		teacher.setLastName(newTeacher.getLastName());
 		log.info("Adding new teacher {}",newTeacher.getAge());
 		teacher.setAge(newTeacher.getAge());
-		log.info("Adding new teacher {}",newTeacher.getUser());
-		UserEntity user = userRepository.findById(userId).get();
-		teacher.setUser(user);
+//		log.info("Adding new teacher {}",newTeacher.getUser());
+//		UserEntity user = userRepository.findById(userId).get();
+//		teacher.setUser(user);
 		teacherRepository.save(teacher);
 		log.error("An exception occured while posting a new teacher!");
 		return new ResponseEntity<>(newTeacher, HttpStatus.CREATED);
